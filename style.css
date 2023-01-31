@@ -199,3 +199,16 @@ body {
     width: 600px;
   }
   
+  /* footer */
+  /* copy right */
+
+.copyright {
+	text-align: center;
+    font-weight: 600;
+	margin: auto;
+	color: #f9f9f9;
+}
+.copyright a {
+    text-decoration: none;
+    color: rgb(34, 166, 203);
+}
