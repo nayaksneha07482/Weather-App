@@ -105,3 +105,55 @@ document.querySelector("#seven").addEventListener("click", () => {
         });
     }
 });
+
+
+
+// Today's button
+
+
+document.querySelector("#today").addEventListener("click", () => {
+    document.querySelector("#weather").style.display = "block";
+    document.querySelector("#map").style.display = "block";
+    document.querySelectorAll("#cards").forEach(item => {
+        item.style.display = "none";
+    });
+    document.querySelector("#seven").style.borderBottom = "none";
+
+    var city = document.querySelector("#inp").value;
+
+    function getMap() {
+        document.querySelector("#gmap_canvas").src = `https://maps.google.com/maps?q=${city}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+    }
+    getMap();
+
+    async function getWeather() {
+        try {
+            let key = "9889d1c207146349f199645bad7f13c6";
+            let fetched = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`)
+
+            let data = await fetched.json();
+            console.log(data);
+            populate(data);
+        }
+        catch (err) {
+            console.log('err:', err);
+        }
+    }
+    getWeather();
+
+    function populate(data) {
+
+        document.querySelector("#weather").style.visibility = "visible";
+        document.querySelector("#today").style.borderBottom = "3px solid rgb(96, 89, 114)";
+
+        document.querySelector("#city").textContent = data.name + ", " + data.sys.country;
+        document.querySelector("#date").textContent = "As of: " + new Date().toLocaleTimeString();
+        document.querySelector("#temp").textContent = data.main.temp + "°";
+        document.querySelector("#smallDeg").textContent = data.main.temp_max + "°C";
+        document.querySelector("#bigDeg").textContent = data.main.temp_min + "°C";
+        document.querySelector("#hum").textContent = data.main.humidity + "%";
+        document.querySelector("#pre").textContent = data.main.pressure + " pa";
+        document.querySelector("#gust").textContent = data.wind.gust + " kmph";
+        document.querySelector("#speed").textContent = data.wind.speed + " kmph";
+    }
+});
